@@ -180,5 +180,5 @@ A Firebase project is connected and configured (`src/firebase.js`, `firestore.ru
 
 Built for **Omni_EdTech_10 — Peer-to-Peer Skill Exchange Among Students**
 
-- **Koudagani Sahithya**
+- **Koudagani Sahithya** - [https://github.com/sahithya2105]
 - **Elagam Shivani** — [@eshivani07](https://github.com/eshivani07)
