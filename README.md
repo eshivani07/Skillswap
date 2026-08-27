@@ -62,22 +62,31 @@ Instead of money, the platform runs on a fair barter-credit economy: **teach for
 
 ## 🏗️ System Architecture
 
-Student Web App (React + Vite)
-│
-▼
-API Gateway + Authentication (Firebase Auth)
-│
-┌────────┼────────────────┬──────────────┬──────────────┐
-▼ ▼ ▼ ▼ ▼
-Matching Session & Chat & SkillCoin Notification
-Engine Booking Video Wallet Service
-│ │ │ │ │
-▼ ▼ ▼ ▼ ▼
-Data Layer — Firestore (Users, Skills, Sessions, Wallet, Ratings)
-│
-▼
-External: WebRTC / FCM / AI Provider (OpenAI / Gemini)
+**Client Layer**
+- Student Web App (React + Vite)
 
+**Gateway**
+- API Gateway + Authentication (Firebase Auth)
+
+**Core Services**
+- Matching Engine
+- Session & Booking
+- Chat & Video
+- SkillCoin Wallet
+- Notification Service
+
+**Data Layer (Firestore)**
+- Users & Profiles
+- Skills & Sessions
+- Transactions (Wallet)
+- Ratings & Reports
+
+**External Integrations**
+- WebRTC / Video SDK
+- Firebase Cloud Messaging
+- AI Provider (OpenAI / Gemini)
+
+> Requests flow top-down: the client talks to the API Gateway, which routes to the relevant core service, which reads/writes to Firestore, and calls external integrations (video, notifications, AI) as needed.
 
 ---
 
@@ -96,15 +105,15 @@ External: WebRTC / FCM / AI Provider (OpenAI / Gemini)
 ## 📂 Project Structure
 skillswap-app/
 ├── src/
-│ ├── components/ # Reusable UI components (Navbar, etc.)
-│ ├── context/ # App-wide state (AppContext)
-│ ├── data/ # Mock data used for the current demo
-│ ├── pages/ # Discover, Login, Profile, Sessions, Wallet
-│ ├── utils/ # Matching logic
-│ ├── firebase.js # Firebase project config & initialization
-│ └── main.jsx
-├── firestore.rules # Firestore security rules
-├── .env.example # Template for required environment variables
+│   ├── components/
+│   ├── context/
+│   ├── data/
+│   ├── pages/
+│   ├── utils/
+│   ├── firebase.js
+│   └── main.jsx
+├── firestore.rules
+├── .env.example
 └── vite.config.js
 
 
@@ -126,21 +135,13 @@ npm install
 
 ### Environment Variables
 
-Copy the example file and add your own Firebase project credentials:
+Copy `.env.example` to `.env` and add your own Firebase project credentials:
 
 ```bash
 cp .env.example .env
 ```
 
-Then fill in `.env` with values from your Firebase project settings (Project Settings → Your apps → SDK config):
-VITE_FIREBASE_API_KEY=
-VITE_FIREBASE_AUTH_DOMAIN=
-VITE_FIREBASE_PROJECT_ID=
-VITE_FIREBASE_STORAGE_BUCKET=
-VITE_FIREBASE_MESSAGING_SENDER_ID=
-VITE_FIREBASE_APP_ID=
-VITE_FIREBASE_MEASUREMENT_ID=
-
+Then fill in the values from your Firebase Console → Project Settings → Your apps.
 
 ### Run locally
 
@@ -179,10 +180,5 @@ A Firebase project is connected and configured (`src/firebase.js`, `firestore.ru
 
 Built for **Omni_EdTech_10 — Peer-to-Peer Skill Exchange Among Students**
 
-**Shivani Elagam** — [@eshivani07](https://github.com/eshivani07)
-
----
-
-## 📄 License
-
-This project is submitted as part of a hackathon and is currently unlicensed for external use.
+- **Koudagani Sahithya**
+- **Elagam Shivani** — [@eshivani07](https://github.com/eshivani07)
