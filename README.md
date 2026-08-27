@@ -61,3 +61,128 @@ Instead of money, the platform runs on a fair barter-credit economy: **teach for
 ---
 
 ## 🏗️ System Architecture
+
+Student Web App (React + Vite)
+│
+▼
+API Gateway + Authentication (Firebase Auth)
+│
+┌────────┼────────────────┬──────────────┬──────────────┐
+▼ ▼ ▼ ▼ ▼
+Matching Session & Chat & SkillCoin Notification
+Engine Booking Video Wallet Service
+│ │ │ │ │
+▼ ▼ ▼ ▼ ▼
+Data Layer — Firestore (Users, Skills, Sessions, Wallet, Ratings)
+│
+▼
+External: WebRTC / FCM / AI Provider (OpenAI / Gemini)
+
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology | Why |
+|---|---|---|
+| Frontend | React + Vite | Fast dev experience, component-based UI |
+| Backend / Auth / DB | Firebase (Auth + Firestore) | Serverless, quick to ship, real-time sync |
+| AI Layer | OpenAI / Gemini API *(planned)* | Powers matchmaking scoring & session summaries |
+| Hosting | Firebase Hosting *(planned)* | Simple CI/CD, generous free tier |
+| Mobile (future) | Flutter | Cross-platform native app |
+
+---
+
+## 📂 Project Structure
+skillswap-app/
+├── src/
+│ ├── components/ # Reusable UI components (Navbar, etc.)
+│ ├── context/ # App-wide state (AppContext)
+│ ├── data/ # Mock data used for the current demo
+│ ├── pages/ # Discover, Login, Profile, Sessions, Wallet
+│ ├── utils/ # Matching logic
+│ ├── firebase.js # Firebase project config & initialization
+│ └── main.jsx
+├── firestore.rules # Firestore security rules
+├── .env.example # Template for required environment variables
+└── vite.config.js
+
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18+ recommended)
+- npm
+
+### Installation
+
+```bash
+git clone https://github.com/eshivani07/Skillswap.git
+cd Skillswap
+npm install
+```
+
+### Environment Variables
+
+Copy the example file and add your own Firebase project credentials:
+
+```bash
+cp .env.example .env
+```
+
+Then fill in `.env` with values from your Firebase project settings (Project Settings → Your apps → SDK config):
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
+
+
+### Run locally
+
+```bash
+npm run dev
+```
+
+Open the URL shown in your terminal (usually `http://localhost:5173`).
+
+---
+
+## 📖 Current Status
+
+This is a **Phase 2 hackathon prototype**. The core UI/UX flows — Discover (AI-style matching), Profile, Sessions, and Wallet — are built and functional using **mock data** to demonstrate the intended product experience end-to-end.
+
+A Firebase project is connected and configured (`src/firebase.js`, `firestore.rules`) as the foundation for the next milestone: replacing mock data with real Firebase Authentication and Firestore-backed data.
+
+---
+
+## 🗺️ Roadmap
+
+- [x] UX flows & wireframes
+- [x] Frontend prototype with mock data (Discover, Profile, Sessions, Wallet)
+- [x] Firebase project setup (Auth + Firestore config)
+- [ ] Real Firebase Authentication (sign up / login)
+- [ ] Firestore-backed skill profiles & sessions
+- [ ] AI matchmaking scoring via OpenAI/Gemini API
+- [ ] In-app chat & video sessions
+- [ ] SkillCoin wallet with real transactions
+- [ ] Ratings, reporting & moderation
+- [ ] Pilot launch with a student group
+
+---
+
+## 👥 Team
+
+Built for **Omni_EdTech_10 — Peer-to-Peer Skill Exchange Among Students**
+
+**Shivani Elagam** — [@eshivani07](https://github.com/eshivani07)
+
+---
+
+## 📄 License
+
+This project is submitted as part of a hackathon and is currently unlicensed for external use.
