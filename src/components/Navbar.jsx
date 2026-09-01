@@ -22,9 +22,10 @@ export default function Navbar() {
         </div>
 
         <nav className="flex items-center gap-1">
-          <NavLink to="/discover" className={linkClass}>Discover</NavLink>
+          <NavLink to="/home" className={linkClass}>Home</NavLink>
+          <NavLink to="/discover" className={linkClass}>Dashboard</NavLink>
+          <NavLink to="/learnt" className={linkClass}>Learnt</NavLink>
           <NavLink to="/profile" className={linkClass}>Profile</NavLink>
-          <NavLink to="/sessions" className={linkClass}>Sessions</NavLink>
           <NavLink to="/wallet" className={linkClass}>Wallet</NavLink>
         </nav>
 

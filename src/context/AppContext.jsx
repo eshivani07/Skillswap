@@ -1,4 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import { onAuthStateChanged, signInAnonymously } from 'firebase/auth'
+import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { auth, db } from '../services/firebase.js'
 
 const AppContext = createContext(null)
 
@@ -13,7 +16,7 @@ const defaultState = {
     learns: []
   },
   wallet: {
-    balance: 5, // starter bonus coins
+    balance: 5,
     transactions: [
       { id: 't0', type: 'bonus', label: 'Welcome bonus', amount: 5, date: new Date().toISOString() }
     ]
@@ -21,10 +24,35 @@ const defaultState = {
   sessions: []
 }
 
+function normalizeState(value = {}) {
+  return {
+    isLoggedIn: !!value.isLoggedIn,
+    profile: {
+      name: value.profile?.name || '',
+      year: value.profile?.year || '',
+      teaches: Array.isArray(value.profile?.teaches) ? value.profile.teaches : [],
+      learns: Array.isArray(value.profile?.learns) ? value.profile.learns : []
+    },
+    wallet: {
+      balance: Number(value.wallet?.balance ?? 5),
+      transactions: Array.isArray(value.wallet?.transactions) ? value.wallet.transactions : [
+        {
+          id: 't0',
+          type: 'bonus',
+          label: 'Welcome bonus',
+          amount: 5,
+          date: new Date().toISOString()
+        }
+      ]
+    },
+    sessions: Array.isArray(value.sessions) ? value.sessions : []
+  }
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : defaultState
+    return raw ? normalizeState(JSON.parse(raw)) : defaultState
   } catch {
     return defaultState
   }
@@ -32,10 +60,51 @@ function loadState() {
 
 export function AppProvider({ children }) {
   const [state, setState] = useState(loadState)
+  const [uid, setUid] = useState(null)
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
   }, [state])
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUid(user.uid)
+
+        try {
+          const snap = await getDoc(doc(db, 'users', user.uid))
+          if (snap.exists()) {
+            const saved = snap.data()
+            setState((prev) => ({
+              ...normalizeState(prev),
+              ...normalizeState(saved),
+              isLoggedIn: saved.isLoggedIn ?? true
+            }))
+          }
+        } catch (err) {
+          console.error('Failed to load user state from Firestore', err)
+        }
+      } else {
+        signInAnonymously(auth).catch((err) => console.error('Anonymous sign-in failed', err))
+      }
+    })
+
+    return unsub
+  }, [])
+
+  useEffect(() => {
+    if (!uid) return
+
+    const userRef = doc(db, 'users', uid)
+    setDoc(userRef, {
+      uid,
+      isLoggedIn: state.isLoggedIn,
+      profile: state.profile,
+      wallet: state.wallet,
+      sessions: state.sessions,
+      updatedAt: serverTimestamp()
+    }, { merge: true }).catch((err) => console.error('Failed to sync state with Firestore', err))
+  }, [uid, state])
 
   const login = (name, year) => {
     setState((s) => ({
@@ -64,12 +133,13 @@ export function AppProvider({ children }) {
     }))
   }
 
-  const bookSession = (withUser, skill, slot) => {
+  const bookSession = (withUser, skill, slot, level = 'Beginner') => {
     const session = {
       id: 's' + Date.now(),
       withUser: withUser.name,
       skill,
       slot,
+      level,
       status: 'requested'
     }
     setState((s) => ({ ...s, sessions: [session, ...s.sessions] }))
@@ -88,6 +158,7 @@ export function AppProvider({ children }) {
 
   const value = {
     ...state,
+    uid,
     login,
     logout,
     updateProfile,
