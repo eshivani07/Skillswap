@@ -176,6 +176,8 @@ A Firebase project is connected and configured (`src/firebase.js`, `firestore.ru
 
 ---
 
+User Interface Explanation drive link: https://drive.google.com/file/d/1JU8FrzVFmuWzPMXjOWeOiEeBUG1nInKr/view?usp=drivesdk
+
 ## 👥 Team
 
 Built for **Omni_EdTech_10 — Peer-to-Peer Skill Exchange Among Students**
