@@ -16,67 +16,80 @@ export default function Discover() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-1">Discover matches</h1>
-      <p className="text-slate-500 text-sm mb-6">
+    <div className="page">
+      <h1 style={{ fontSize: 26, color: 'var(--black-soft)', marginBottom: 4 }}>Discover matches</h1>
+      <p style={{ color: 'var(--brown)', fontSize: 14, marginBottom: 24 }}>
         Ranked by skill overlap with your profile — a simple stand-in for the AI Matchmaking Model.
       </p>
 
       {profile.teaches.length === 0 && profile.learns.length === 0 && (
-        <div className="bg-white border border-slate-200 rounded-xl p-6 text-center text-slate-500">
+        <div className="card" style={{ textAlign: 'center', color: 'var(--brown-light)' }}>
           Add some skills on your <strong>Profile</strong> page first to see matches.
         </div>
       )}
 
-      <div className="space-y-4">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {matches.map(({ user, score, matchedSkills, mutual }) => (
-          <div key={user.id} className="bg-white border border-slate-200 rounded-xl p-5">
-            <div className="flex items-start justify-between">
+          <div key={user.id} className="card">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
-                <h3 className="font-semibold text-lg">{user.name}</h3>
-                <p className="text-sm text-slate-500">{user.year} · ⭐ {user.rating} · {user.sessionsTaught} sessions taught</p>
+                <h3 style={{ fontSize: 18, fontWeight: 600, color: 'var(--black-soft)' }}>{user.name}</h3>
+                <p style={{ fontSize: 13, color: 'var(--brown)' }}>
+                  {user.year} · ⭐ {user.rating} · {user.sessionsTaught} sessions taught
+                </p>
               </div>
-              <div className="text-right">
-                <div className="text-xs text-slate-400">Match score</div>
-                <div className="text-xl font-bold text-brand-600">{score}</div>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: 12, color: 'var(--brown-light)' }}>Match score</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--brown-dark)' }}>{score}</div>
               </div>
             </div>
 
-            <div className="mt-3 flex flex-wrap gap-2 text-sm">
-              {user.teaches.map((s) => (
-                <span
-                  key={s}
-                  className={`px-2.5 py-1 rounded-full ${
-                    matchedSkills.includes(s.toLowerCase())
-                      ? 'bg-mint-500 text-white'
-                      : 'bg-slate-100 text-slate-600'
-                  }`}
-                >
-                  {s}
-                </span>
-              ))}
+            <div style={{ marginTop: 12, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {user.teaches.map((s) => {
+                const isMatched = matchedSkills.includes(s.toLowerCase())
+                return (
+                  <span
+                    key={s}
+                    className={isMatched ? undefined : 'tag'}
+                    style={
+                      isMatched
+                        ? {
+                            padding: '4px 12px',
+                            borderRadius: 999,
+                            fontSize: 12,
+                            fontWeight: 600,
+                            background: 'var(--brown)',
+                            color: '#fff',
+                          }
+                        : undefined
+                    }
+                  >
+                    {s}
+                  </span>
+                )
+              })}
             </div>
 
             {mutual && (
-              <p className="text-xs text-mint-600 font-medium mt-2">↔ Mutual swap possible — they want a skill you teach too</p>
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--success)', marginTop: 8 }}>
+                ↔ Mutual swap possible — they want a skill you teach too
+              </p>
             )}
 
-            <div className="mt-4 flex gap-2">
+            <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               {user.teaches
                 .filter((s) => profile.learns.map((l) => l.toLowerCase()).includes(s.toLowerCase()))
                 .map((skill) => (
-                  <button
-                    key={skill}
-                    onClick={() => handleBook(user, skill)}
-                    className="px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-medium rounded-lg"
-                  >
+                  <button key={skill} onClick={() => handleBook(user, skill)} className="btn btn-primary">
                     Request "{skill}" session
                   </button>
                 ))}
             </div>
 
             {bookedFor === user.id && (
-              <p className="text-sm text-mint-600 mt-2">✓ Session requested! Check the Sessions tab.</p>
+              <p style={{ fontSize: 13, color: 'var(--success)', marginTop: 8 }}>
+                ✓ Session requested! Check the Sessions tab.
+              </p>
             )}
           </div>
         ))}

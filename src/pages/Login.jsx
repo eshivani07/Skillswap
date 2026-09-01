@@ -16,45 +16,73 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 to-mint-500/10 px-4">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-8">
-        <div className="flex items-center gap-2 mb-6 justify-center">
-          <div className="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center text-white font-bold text-lg">
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, var(--cream), var(--beige))',
+        padding: '0 16px',
+      }}
+    >
+      <div
+        className="card"
+        style={{ width: '100%', maxWidth: 380, padding: 32 }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'center', marginBottom: 20 }}>
+          <div
+            style={{
+              width: 42,
+              height: 42,
+              borderRadius: 12,
+              background: 'var(--brown)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: 18,
+            }}
+          >
             S
           </div>
-          <span className="font-bold text-2xl">SkillSwap</span>
+          <span style={{ fontWeight: 800, fontSize: 24, color: 'var(--black-soft)' }}>SkillSwap</span>
         </div>
-        <p className="text-center text-slate-500 text-sm mb-6">
+
+        <p style={{ textAlign: 'center', color: 'var(--brown)', fontSize: 14, marginBottom: 22 }}>
           Learn something new by teaching something you know.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Full name</label>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--black-soft)', marginBottom: 6 }}>
+              Full name
+            </label>
             <input
+              className="input"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Priya Sharma"
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Year / Branch</label>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--black-soft)', marginBottom: 6 }}>
+              Year / Branch
+            </label>
             <input
+              className="input"
               value={year}
               onChange={(e) => setYear(e.target.value)}
               placeholder="e.g. 2nd Year, CSE"
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-2.5 rounded-lg transition"
-          >
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '12px 0' }}>
             Continue
           </button>
         </form>
-        <p className="text-xs text-center text-slate-400 mt-4">
+
+        <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--brown-light)', marginTop: 16 }}>
           Demo login — no password needed for this prototype.
         </p>
       </div>
