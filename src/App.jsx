@@ -10,6 +10,8 @@ import Sessions from './pages/Sessions.jsx'
 import Wallet from './pages/Wallet.jsx'
 import Assignments from './pages/Assignments.jsx'
 import Learnt from './pages/Learnt.jsx'
+import Session from './pages/Session.jsx'
+import Quiz from './components/Quiz.jsx'
 
 function Protected({ children }) {
   const { isLoggedIn } = useApp()
@@ -31,6 +33,8 @@ export default function App() {
         <Route path="/wallet" element={<Protected><Wallet /></Protected>} />
         <Route path="/assignments" element={<Protected><Assignments /></Protected>} />
         <Route path="/learnt" element={<Protected><Learnt /></Protected>} />
+        <Route path="/session/:sessionId" element={<Protected><Session /></Protected>} />
+        <Route path="/session/:sessionId/quiz" element={<Protected><Quiz /></Protected>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

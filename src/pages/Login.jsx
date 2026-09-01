@@ -12,7 +12,7 @@ export default function Login() {
     e.preventDefault()
     if (!name.trim()) return
     login(name.trim(), year.trim() || 'Student')
-    navigate('/profile')
+    navigate('/home')
   }
 
   return (
