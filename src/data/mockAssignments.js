@@ -1,26 +1,22 @@
-export const mockAssignments = [
+const mockAssignments = [
   {
-    id: 'ma1',
-    title: 'Write a C Program to Swap Two Numbers',
-    skill: 'C Programming',
-    difficulty: 'Beginner',
-    status: 'Pending',
-    due: 'Tomorrow'
+    id: 1,
+    title: "Swap Two Numbers",
+    description: "Write a program to swap two numbers without a third variable.",
+    status: "Not Started",
   },
   {
-    id: 'ma2',
-    title: 'Find the Largest of Three Numbers',
-    skill: 'C Programming',
-    difficulty: 'Beginner',
-    status: 'In Progress',
-    due: '2 days'
+    id: 2,
+    title: "Array Basics",
+    description: "Write a program to find the largest element in an array.",
+    status: "In Progress",
   },
   {
-    id: 'ma3',
-    title: 'Explain Variables with Real-Life Examples',
-    skill: 'C Programming',
-    difficulty: 'Beginner',
-    status: 'Submitted',
-    due: '3 days'
-  }
-]
+    id: 3,
+    title: "Loops Practice",
+    description: "Print the Fibonacci series up to 10 terms using a loop.",
+    status: "Completed",
+  },
+];
+
+export default mockAssignments;

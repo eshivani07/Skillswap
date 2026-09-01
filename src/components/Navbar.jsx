@@ -1,47 +1,72 @@
-import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext.jsx'
+import { NavLink } from "react-router-dom";
+import { Home, Compass, ClipboardList, BookOpen, User, Wallet as WalletIcon } from "lucide-react";
 
-const linkClass = ({ isActive }) =>
-  `px-3 py-2 rounded-lg text-sm font-medium transition ${
-    isActive ? 'bg-brand-500 text-white' : 'text-slate-600 hover:bg-slate-100'
-  }`
+const navItems = [
+  { to: "/home", label: "Home", icon: Home },
+  { to: "/discover", label: "Discover", icon: Compass },
+  { to: "/assignments", label: "Assignments", icon: ClipboardList },
+  { to: "/learnt", label: "Learnt", icon: BookOpen },
+  { to: "/profile", label: "Profile", icon: User },
+  { to: "/wallet", label: "Wallet", icon: WalletIcon },
+];
 
 export default function Navbar() {
-  const { profile, wallet, logout } = useApp()
-  const navigate = useNavigate()
-
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
-      <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white font-bold">
-            S
-          </div>
-          <span className="font-semibold text-lg">SkillSwap</span>
-        </div>
-
-        <nav className="flex items-center gap-1">
-          <NavLink to="/home" className={linkClass}>Home</NavLink>
-          <NavLink to="/discover" className={linkClass}>Dashboard</NavLink>
-          <NavLink to="/learnt" className={linkClass}>Learnt</NavLink>
-          <NavLink to="/profile" className={linkClass}>Profile</NavLink>
-          <NavLink to="/wallet" className={linkClass}>Wallet</NavLink>
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 bg-mint-500/10 text-mint-600 px-3 py-1.5 rounded-full text-sm font-semibold">
-            🪙 {wallet.balance}
-          </div>
-          <span className="text-sm text-slate-500 hidden sm:inline">{profile.name}</span>
-          <button
-            onClick={() => { logout(); navigate('/') }}
-            className="text-sm text-slate-500 hover:text-slate-800"
+    <nav style={styles.nav}>
+      <div style={styles.logo}>🔄 SkillSwap</div>
+      <div style={styles.links}>
+        {navItems.map(({ to, label, icon: Icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            style={({ isActive }) => ({
+              ...styles.link,
+              background: isActive ? "var(--brown)" : "transparent",
+              color: isActive ? "#fff" : "var(--black-soft)",
+            })}
           >
-            Log out
-          </button>
-        </div>
+            <Icon size={17} />
+            <span>{label}</span>
+          </NavLink>
+        ))}
       </div>
-    </header>
-  )
+    </nav>
+  );
 }
+
+const styles = {
+  nav: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "14px 28px",
+    background: "var(--beige)",
+    borderBottom: "1px solid var(--beige-dark)",
+    position: "sticky",
+    top: 0,
+    zIndex: 100,
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  logo: {
+    fontWeight: 800,
+    fontSize: 20,
+    color: "var(--brown-dark)",
+  },
+  links: {
+    display: "flex",
+    gap: 6,
+    flexWrap: "wrap",
+  },
+  link: {
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+    padding: "8px 14px",
+    borderRadius: 999,
+    textDecoration: "none",
+    fontSize: 14,
+    fontWeight: 600,
+    transition: "all 0.2s ease",
+  },
+};

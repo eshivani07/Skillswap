@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useApp } from '../context/AppContext.jsx'
 
-function SkillInput({ label, color, skills, onAdd, onRemove }) {
+function SkillInput({ label, skills, onAdd, onRemove }) {
   const [value, setValue] = useState('')
 
   const add = () => {
@@ -12,34 +12,33 @@ function SkillInput({ label, color, skills, onAdd, onRemove }) {
   }
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-5">
-      <h3 className="font-semibold mb-3">{label}</h3>
-      <div className="flex gap-2 mb-3">
+    <div className="card">
+      <h3 style={{ fontSize: 18, marginBottom: 14, color: 'var(--black-soft)' }}>{label}</h3>
+      <div style={{ display: 'flex', gap: 10, marginBottom: 14 }}>
         <input
+          className="input"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), add())}
           placeholder="e.g. Python, Guitar, Public Speaking"
-          className="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
-        <button
-          onClick={add}
-          className="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-700"
-        >
+        <button onClick={add} className="btn btn-primary">
           Add
         </button>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {skills.length === 0 && (
-          <span className="text-sm text-slate-400">No skills added yet.</span>
+          <span style={{ fontSize: 14, color: 'var(--brown-light)' }}>No skills added yet.</span>
         )}
         {skills.map((s) => (
-          <span
-            key={s}
-            className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${color}`}
-          >
+          <span key={s} className="tag" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             {s}
-            <button onClick={() => onRemove(s)} className="opacity-60 hover:opacity-100">×</button>
+            <button
+              onClick={() => onRemove(s)}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--brown-dark)', opacity: 0.6, fontSize: 13 }}
+            >
+              ×
+            </button>
           </span>
         ))}
       </div>
@@ -56,28 +55,27 @@ export default function Profile() {
   const removeLearn = (s) => updateProfile({ learns: profile.learns.filter((x) => x !== s) })
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">{profile.name}'s Skill Profile</h1>
-        <p className="text-slate-500 text-sm">{profile.year}</p>
+    <div className="page">
+      <div style={{ marginBottom: 24 }}>
+        <h1 style={{ fontSize: 28, color: 'var(--black-soft)' }}>{profile.name}'s Skill Profile</h1>
+        <p style={{ color: 'var(--brown)', fontSize: 14 }}>{profile.year}</p>
       </div>
 
-      <SkillInput
-        label="Skills I can teach"
-        color="bg-mint-500/10 text-mint-600"
-        skills={profile.teaches}
-        onAdd={addTeach}
-        onRemove={removeTeach}
-      />
-      <SkillInput
-        label="Skills I want to learn"
-        color="bg-brand-500/10 text-brand-700"
-        skills={profile.learns}
-        onAdd={addLearn}
-        onRemove={removeLearn}
-      />
+      <SkillInput label="Skills I can teach" skills={profile.teaches} onAdd={addTeach} onRemove={removeTeach} />
+      <div style={{ height: 20 }} />
+      <SkillInput label="Skills I want to learn" skills={profile.learns} onAdd={addLearn} onRemove={removeLearn} />
 
-      <div className="bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-xl p-4">
+      <div
+        style={{
+          marginTop: 24,
+          padding: 18,
+          borderRadius: 'var(--radius)',
+          background: 'var(--beige)',
+          border: '1px solid var(--beige-dark)',
+          color: 'var(--brown-dark)',
+          fontSize: 14,
+        }}
+      >
         Tip: add at least one skill to each list, then head to <strong>Discover</strong> to see your AI-matched learning partners.
       </div>
     </div>
