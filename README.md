@@ -24,6 +24,8 @@ Every campus is full of untapped teaching talent — a senior fluent in Python, 
 
 ---
 
+Project url: https://skillswap-cjom.onrender.com/
+
 ## 💡 Solution
 
 SkillSwap lets every student maintain two lists — **skills they can teach** and **skills they want to learn** — and an AI-driven matchmaking engine connects compatible students for structured, one-on-one or group learning sessions.
